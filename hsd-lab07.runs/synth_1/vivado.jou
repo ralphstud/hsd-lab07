@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Fri Apr 29 11:38:22 2022
+# Process ID: 23532
+# Current directory: Z:/Projects/SNU/2022-1/HardwareSystemDesign/hsd-lab07/hsd-lab07.runs/synth_1
+# Command line: vivado.exe -log sw2led.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source sw2led.tcl
+# Log file: Z:/Projects/SNU/2022-1/HardwareSystemDesign/hsd-lab07/hsd-lab07.runs/synth_1/sw2led.vds
+# Journal file: Z:/Projects/SNU/2022-1/HardwareSystemDesign/hsd-lab07/hsd-lab07.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source sw2led.tcl -notrace
