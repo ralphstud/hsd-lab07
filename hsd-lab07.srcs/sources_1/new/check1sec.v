@@ -6,49 +6,23 @@ module check1sec(
     output [7:0] LED
     );
 
-    reg [26:0] mhz = 27'd100000000;
-    reg sec;
+    integer i;
     reg [7:0] count = 8'b00000000;
-    reg [7:0] data = 8'b00000000;
-    reg up = 'b1;
-    reg down = 'b0;
-    reg load = 'b0;
-
+    
     always @(posedge GCLK) begin
-        if (~CENTER_PUSHBUTTON) begin        
-            if (mhz == 0) begin
-                sec <= 1;
-                mhz <= 27'd100000000;
-                sec <= 0;
-            end
-            else
-                mhz <= mhz - 1;
+        if (CENTER_PUSHBUTTON) begin
+            count <= 'd0;
+            i <= 0;
         end
         else begin
-            count <= 8'b00000000;
-            mhz <= 27'd100000000;
-        end
-    end
-
-    always @(posedge sec) begin
-        if (load) begin
-            count = data;
-            load <= ~load;
-            up <= ~up;
-            down <= ~down;
-        end
-        else if (up) begin
-            if (count == 8'b11111111)
-                count <= 8'b00000000;
-            else
-                count <= count + 1;
-        end
-        else if (down) begin
-            if (count == 8'b00000000)
-                count <= 8'b11111111;
-            else
-                count <= count - 1;
-        end                    
+            if (i == 100000000) begin
+                count = count + 1;
+                i = 0;
+            end
+            else begin
+                i = i + 1;
+            end
+        end    
     end
 
     assign LED = count;
