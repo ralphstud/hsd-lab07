@@ -6,7 +6,7 @@ module check1sec(
     output [7:0] LED
     );
 
-    reg [26:0] mhz = 100000000;
+    reg [26:0] mhz = 27'd100000000;
     reg sec;
     reg [7:0] count = 8'b00000000;
     reg [7:0] data = 8'b00000000;
@@ -15,38 +15,40 @@ module check1sec(
     reg load = 'b0;
 
     always @(posedge GCLK) begin
-        if (mhz == 0) begin
-            sec <= 1;
-            mhz <= 100000000;
-            sec <= 0;
+        if (~CENTER_PUSHBUTTON) begin        
+            if (mhz == 0) begin
+                sec <= 1;
+                mhz <= 27'd100000000;
+                sec <= 0;
+            end
+            else
+                mhz <= mhz - 1;
         end
-        else
-            mhz <= mhz - 1;
+        else begin
+            count <= 8'b00000000;
+            mhz <= 27'd100000000;
+        end
     end
 
     always @(posedge sec) begin
-        if (~CENTER_PUSHBUTTON) begin
-            if (load) begin
-                count = data;
-                load <= ~load;
-                up <= ~up;
-                down <= ~down;
-            end
-            else if (up) begin
-                if (count == 8'b11111111)
-                    count <= 8'b00000000;
-                else
-                    count <= count + 1;
-            end
-            else if (down) begin
-                if (count == 8'b00000000)
-                    count <= 8'b11111111;
-                else
-                    count <= count - 1;
-            end            
+        if (load) begin
+            count = data;
+            load <= ~load;
+            up <= ~up;
+            down <= ~down;
         end
-        else
-            count <= 8'b00000000;
+        else if (up) begin
+            if (count == 8'b11111111)
+                count <= 8'b00000000;
+            else
+                count <= count + 1;
+        end
+        else if (down) begin
+            if (count == 8'b00000000)
+                count <= 8'b11111111;
+            else
+                count <= count - 1;
+        end                    
     end
 
     assign LED = count;
